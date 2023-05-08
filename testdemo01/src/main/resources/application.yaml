@@ -1,0 +1,28 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/testdb01?useSSL=false
+    username: root
+    password: 0909
+  # security:
+  #   user:
+  #     name: root
+  #     password: 123
+  #     roles:
+  #     - admin
+  data:
+    redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      timeout: 1000
+  # main:
+  #   allow-circular-references: true
+testdemo01:
+  jwt:
+    header: Authorization
+    expire: 604800
+    secret: werdftertwer23412ert34534t
