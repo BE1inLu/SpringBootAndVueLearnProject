@@ -123,20 +123,14 @@ public class SecurityConfig {
                         .accessDeniedHandler(JwtaccessDeniedHandler));
         // session管理
         http.sessionManagement(
-                (management) -> management
-                        // 删除自带的session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        // 这里的filter是图片验证码filter，在登录前判定
-        // filter 设置 在 passwordfilter 前判定验证码有无错误
+                // 删除自带的session
+                (management) -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        // 图片验证码filter
         http.addFilterBefore(capthcaFailter, UsernamePasswordAuthenticationFilter.class);
-
         // 认证方式链
         http.authenticationProvider(authenticationProvider());
-
-        // 将jwt验证放在 UsernamePasswordAuthenticationFilter 前
+        // jwt验证filter
         http.addFilterBefore(authtokenFailter(), UsernamePasswordAuthenticationFilter.class);
-
         // 构建 filter
         return http.build();
     }
