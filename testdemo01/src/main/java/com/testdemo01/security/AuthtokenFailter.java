@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.testdemo01.entity.SysUser;
 import com.testdemo01.service.SysUserService;
 import com.testdemo01.service.impl.SysUserDetailServiceImpl;
 import com.testdemo01.util.JwtUtil;
@@ -21,6 +20,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+// jwt验证filter
 public class AuthtokenFailter extends OncePerRequestFilter {
 
     @Autowired
@@ -38,7 +38,7 @@ public class AuthtokenFailter extends OncePerRequestFilter {
 
         // 获取jwt，并解析
 
-        System.out.println("====进入JwtAuthenticationFilter===");
+        System.out.println("====进入 AuthtokenFailter ===");
         String jwtstr;
         try {
             String localstr = "Authorization";
@@ -46,9 +46,9 @@ public class AuthtokenFailter extends OncePerRequestFilter {
             System.out.println("request.getHeader(localstr): " + request.getHeader(localstr));
 
             jwtstr = request.getHeader(localstr);
-            System.out.println("===jwtUtil已获取===");
+            System.out.println("=== jwtUtil已获取 ===");
         } catch (Exception e) {
-            System.out.println("=====JwtUtil异常=====");
+            System.out.println("===== JwtUtil异常 =====");
             e.printStackTrace();
             jwtstr = null;
         }
@@ -62,11 +62,8 @@ public class AuthtokenFailter extends OncePerRequestFilter {
 
         // 判断 jwtstr：token 有无错误
         String jwt = jwtstr;
+        
         System.out.println("jwt: " + jwt);
-
-        // System.out.println("解密结果：" + JWTUtil.verify(jwt,
-        // "werdftertwer23412ert34534t".getBytes()));
-
         System.out.println("jwtutil: " + jwtUtil);
 
         if (jwt == null) {
@@ -87,10 +84,16 @@ public class AuthtokenFailter extends OncePerRequestFilter {
         // UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null,sysUserDetailService.getUserAuthority(sysUser.getId()));
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
 
-        token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        System.out.println("UsernamePasswordAuthenticationToken token:");
+        System.out.println(token);
 
+        token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(token);
         
+        System.out.println("token:");
+        System.out.println(token);
+
+        System.out.println("===离开 AuthtokenFailter ===");
         filterChain.doFilter(request, response);
         
     }

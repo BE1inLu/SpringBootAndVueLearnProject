@@ -99,9 +99,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         }
 
+        System.out.println("用户ID - {" + userId + "} ---拥有的权限：{" + authority + "}");
         // 离开 getUserAuthorityInfo
         System.out.println("====离开 getUserAuthorityInfo ====");
-
         return authority;
     }
 

@@ -7,9 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import com.testdemo01.config.jwtPropertiesConfig;
 import com.testdemo01.entity.SysUser;
@@ -19,15 +17,14 @@ import com.testdemo01.util.JwtUtil;
 import com.testdemo01.util.RedisUtil;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.jwt.JWTUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 // 认证管理器实现
-@Component
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired
@@ -54,7 +51,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throws IOException, ServletException {
 
 
-        System.out.println("====进入JwtAuthenticationFilter===");        
+        System.out.println("====进入 JwtAuthenticationFilter ===");        
         String jwtstr;
         try {
             String localstr = "Authorization";
@@ -62,9 +59,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             System.out.println("request.getHeader(localstr): " + request.getHeader(localstr));
 
             jwtstr = request.getHeader(localstr);
-            System.out.println("===jwtUtil已获取===");
+            System.out.println("=== jwtUtil已获取 ===");
         } catch (Exception e) {
-            System.out.println("=====JwtUtil异常=====");
+            System.out.println("===== JwtUtil异常 =====");
             e.printStackTrace();
             jwtstr = null;
         }
@@ -80,7 +77,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String jwt = jwtstr;
         System.out.println("jwt: " + jwt);
 
-        // System.out.println("解密结果：" + JWTUtil.verify(jwt, "werdftertwer23412ert34534t".getBytes()));
+        System.out.println("解密结果：" + JWTUtil.verify(jwt, "werdftertwer23412ert34534t".getBytes()));
 
         System.out.println("jwtutil: " + jwtUtil);
 
@@ -97,11 +94,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
         SysUser sysUser = sysUserService.getByUsername(username);
 
+        // test
         System.out.println("sysuser: "+sysUser);
         System.out.println("sysUserService.getByUsername(username): "+sysUserService.getByUsername(username));
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null,SysUserDetailService.getUserAuthority(sysUser.getId()));
 
+        // test
         System.out.println("token:");
         System.out.println(token);
 
@@ -110,12 +109,20 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(token);
 
+        // test
+        System.out.println("contest: ");
+        System.out.println(context);
 
+        SecurityContextHolder.setContext(context);
+
+        // test
+        System.out.println("SecurityContextHolder: ");
+        System.out.println(context.toString());
         System.out.println("SecurityContext.getAuthentication(): ");
         System.out.println(context.getAuthentication());
 
-        System.out.println("====离开JwtAuthenticationFilter===");
-        chain.doFilter(request, response);
+        System.out.println("====离开 JwtAuthenticationFilter ===");
+        super.doFilterInternal(request, response, chain);
     }
 
 }

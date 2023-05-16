@@ -21,7 +21,6 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.core.map.MapUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class AuthController extends BaseController {
@@ -69,7 +68,7 @@ public class AuthController extends BaseController {
     }
 
     @GetMapping("/sys/userInfo")
-    public result userInfo(@RequestParam Principal principal) {
+    public result userInfo(Principal principal) {
 
         System.out.println("==执行 Authcontroller：/sys/userInfo ===");
 

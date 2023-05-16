@@ -19,8 +19,8 @@ spring:
       host: 127.0.0.1
       port: 6379
       timeout: 1000
-  # main:
-  #   allow-circular-references: true
+  main:
+    allow-bean-definition-overriding: true
 testdemo01:
   jwt:
     header: Authorization

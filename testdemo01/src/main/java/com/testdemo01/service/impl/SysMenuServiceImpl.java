@@ -1,5 +1,16 @@
 package com.testdemo01.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.testdemo01.common.dto.SysMenuDto;
 import com.testdemo01.entity.SysMenu;
 import com.testdemo01.entity.SysUser;
@@ -7,15 +18,6 @@ import com.testdemo01.mapping.SysMenuMapper;
 import com.testdemo01.mapping.SysUserMapper;
 import com.testdemo01.service.SysMenuService;
 import com.testdemo01.service.SysUserService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -37,7 +39,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuDto> getcurrentUserNav() {
         // 通过 security 获取用户名
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // String username =
+        // SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        String username = authentication.getName();
         SysUser sysUser = sysUserService.getByUsername(username);
         List<Long> menuIds = sysUserMapper.getNavMenuIds(sysUser.getId());
         List<SysMenu> menus = buildTreeMenu(this.listByIds(menuIds));

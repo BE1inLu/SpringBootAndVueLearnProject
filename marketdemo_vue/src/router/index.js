@@ -112,10 +112,10 @@ router.beforeEach((to, from, next) => {
     }).then((res) => {
 
       // test
-      console.log("后端回传的导航栏navjson：res.data.data.nav");
-      console.log(res.data.data.nav);
-      console.log("后端回传的user权限json：res.data.data.authoritys");
-      console.log(res.data.data.authoritys);
+      console.log("后端回传的导航栏navjson：res.data.obj.nav");
+      console.log(res.data.obj.nav);
+      console.log("后端回传的user权限json：res.data.obj.authoritys");
+      console.log(res.data.obj.authoritys);
 
       // 赋值store.menulist
       // console.log("赋值查看");
@@ -123,16 +123,16 @@ router.beforeEach((to, from, next) => {
       // console.log(store.state.menus.menuList);
       // 拿用户权限
       console.log("后端回传的navjson设置在stroe：menuList");
-      store.commit('SetMenuList', res.data.data.nav);
+      store.commit('SetMenuList', res.data.obj.nav);
       console.log("后端回传的user权限json设置在stroe：Permlist");
-      store.commit('SetPermList', res.data.data.authoritys);
+      store.commit('SetPermList', res.data.obj.authoritys);
 
       // 对menu的子路由进行路由映射
       // 遍历循环data.nav
       res.data.data.nav.forEach(menu => {
 
         // // menu?
-        console.log("res.data.data.nav->menu");
+        console.log("res.data.obj.nav->menu");
         console.log(menu);
 
         if (menu.children) {

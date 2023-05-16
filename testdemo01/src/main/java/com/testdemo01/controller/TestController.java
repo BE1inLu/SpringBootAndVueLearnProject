@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.testdemo01.config.jwtPropertiesConfig;
+import com.testdemo01.entity.SysUser;
 import com.testdemo01.mapping.SysUserMapper;
 import com.testdemo01.result.result;
 import com.testdemo01.service.SysUserService;
 import com.testdemo01.service.impl.SysUserDetailServiceImpl;
 import com.testdemo01.util.JwtUtil;
 
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @RestController
 public class TestController {
     @Autowired
@@ -32,6 +31,9 @@ public class TestController {
 
     @Autowired
     SysUserMapper sysUserMapper;
+
+    @Autowired
+    SysUserService sysUserService;
 
     @Autowired
     jwtPropertiesConfig jwtPropertiesConfig;
@@ -106,7 +108,20 @@ public class TestController {
     @GetMapping("/test/test04")
     result test05(){
 
-        log.info("SysUserDetailServiceImpl: "+SysUserDetailServiceImpl.loadUserByUsername("admin"));
+        System.out.println("SysUserDetailServiceImpl: "+SysUserDetailServiceImpl.loadUserByUsername("admin"));
+        
+
+        System.out.println("getUserAuthority: "+SysUserDetailServiceImpl.getUserAuthority((long)1));
+
+        SysUser testuser=sysUserService.getByUsername("admin");
+
+        System.out.println("testuser:");
+        System.out.println(testuser);
+        System.out.println("id:"+testuser.getId());
+        System.out.println("username:"+testuser.getUsername());
+        System.out.println("passwd:"+testuser.getPassword());
+        System.out.println("sysrples:"+testuser.getSysRoles());
+
 
         return result.succ("succ");
     }

@@ -42,9 +42,8 @@ public class loginSuccessHandler implements AuthenticationSuccessHandler {
         System.out.println("loginsucc生成的jwt: "+jwt);
         response.setHeader(jwtPropertiesConfig.getHeader(), jwt);
         result varResule = result.succ("login success");
-
-        // test
-        System.out.println(JSONUtil.toJsonStr(varResule).getBytes("UTF-8"));
+        // // test
+        // System.out.println(JSONUtil.toJsonStr(varResule).getBytes("UTF-8"));
 
         outputStream.write(JSONUtil.toJsonStr(varResule).getBytes("UTF-8"));
         outputStream.flush();

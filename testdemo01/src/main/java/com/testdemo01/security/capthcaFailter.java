@@ -35,24 +35,22 @@ public class capthcaFailter extends OncePerRequestFilter {
         String url = request.getRequestURI();
         if ("/login".equals(url) && request.getMethod().equals("POST")) {
             try {
-                // System.out.println("===进入验证码校验filter===");
                 // 验证码校验
                 validate(request);
             } catch (captchaException e) {
                 // 进入登录失败 filter
-                // System.out.println("进入登录失败 filter -> log: "+e.getMessage());
                 loginFailureHandler.onAuthenticationFailure(request, response, e);
             }
 
         }
-        // System.out.println("====继续执行后续的filter====");
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * <h2>验证码校验方法</h2>
+     * @param request
+     */
     private void validate(HttpServletRequest request) {
-
-        // 验证码校验方法
-        // System.out.println("===验证码校验方法===");
 
         String code = request.getParameter("code");
         String key = request.getParameter("token");
@@ -68,13 +66,9 @@ public class capthcaFailter extends OncePerRequestFilter {
         System.out.println("redis->code: " + redisUtil.hashmapget(Const.CAPTCHA_KEY, key));
 
         if (!code.equals(redisUtil.hashmapget(Const.CAPTCHA_KEY, key))) {
-            // System.out.println("验证码错误");
             throw new captchaException("验证码错误");
         }
-
-        // redis 验证码缓存删除
         redisUtil.hashmapdel(Const.CAPTCHA_KEY, key);
-
     }
 
 }
