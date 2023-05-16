@@ -128,8 +128,8 @@ router.beforeEach((to, from, next) => {
       store.commit('SetPermList', res.data.obj.authoritys);
 
       // 对menu的子路由进行路由映射
-      // 遍历循环data.nav
-      res.data.data.nav.forEach(menu => {
+      // 遍历循环obj.nav
+      res.data.obj.nav.forEach(menu => {
 
         // // menu?
         console.log("res.data.obj.nav->menu");

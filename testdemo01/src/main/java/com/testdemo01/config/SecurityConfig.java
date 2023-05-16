@@ -67,6 +67,8 @@ public class SecurityConfig {
         return new AuthtokenFailter();
     }
 
+    // dao认证实现
+    // https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/dao-authentication-provider.html#page-title
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -129,14 +131,11 @@ public class SecurityConfig {
         // filter 设置 在 passwordfilter 前判定验证码有无错误
         http.addFilterBefore(capthcaFailter, UsernamePasswordAuthenticationFilter.class);
 
-        // TODO:还没弄懂这个是什么链
+        // 认证方式链
         http.authenticationProvider(authenticationProvider());
 
         // 将jwt验证放在 UsernamePasswordAuthenticationFilter 前
         http.addFilterBefore(authtokenFailter(), UsernamePasswordAuthenticationFilter.class);
-
-        // 用户信息配置（新）
-        http.userDetailsService(userDetailsService);
 
         // 构建 filter
         return http.build();

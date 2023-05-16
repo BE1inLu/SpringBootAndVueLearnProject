@@ -66,7 +66,7 @@ export default {
     getUserInfo() {
       this.$axios.get("/sys/userInfo").then((res) => {
         console.log(res);
-        this.userInfo = res.data.data;
+        this.userInfo = res.data.obj;
       });
     },
     logout() {

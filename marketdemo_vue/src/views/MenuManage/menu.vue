@@ -172,7 +172,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          this.tableData = res.data.data;
+          this.tableData = res.data.obj;
         });
     },
     // 表单新增方法

@@ -66,14 +66,7 @@ public class JwtUtil {
      * @return
      */
     public boolean isTokenExpired(String token) {
-        try{
-            System.out.println("jwtPropertiesConfig.getSecret(): "+jwtPropertiesConfig.getSecret());
-        }catch(Exception e){
-            // e.printStackTrace();
-        }
-        // return JWTUtil.verify(token, JWTSignerUtil.hs512(jwtPropertiesConfig.getSecret().getBytes()));
-        return JWTUtil.verify(token, JWTSignerUtil.hs512("werdftertwer23412ert34534t".getBytes()));
-
+        return JWTUtil.verify(token, JWTSignerUtil.hs512(jwtPropertiesConfig.getSecret().getBytes()));
     }
 
 }

@@ -89,7 +89,7 @@ export default {
   methods: {
     getUserInfo() {
       this.$axios.get("/sys/userInfo").then((res) => {
-        this.userInfo = res.data.data;
+        this.userInfo = res.data.obj;
       });
     },
     submitForm(formName) {
