@@ -45,10 +45,10 @@
           ></el-image>
         </div>
         <el-form-item class="button-01">
-          <el-button type="primary" @click="submitForm('loginForm')"
-            >立即创建</el-button
-          >
-          <el-button @click="resetForm('loginForm')">重置</el-button>
+          <el-button type="primary" @click="submitForm('loginForm')">
+            Log in
+          </el-button>
+          <el-button @click="resetForm('loginForm')">reset</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -110,18 +110,6 @@ export default {
               console.log(
                 "loginurl: " + "/login?" + qs.stringify(this.loginForm)
               );
-              // console.log(
-              //   "loginurl: " +
-              //     "/login?" +
-              //     "username=" +
-              //     this.loginForm.username +
-              //     "&password=" +
-              //     this.loginForm.password +
-              //     "&code=" +
-              //     this.loginForm.code +
-              //     "&token=" +
-              //     this.loginForm.token
-              // );
 
               // TODO：注释注意
               // 注：后期需要弄成jwt，这里用mockjs生成的token替代
@@ -141,7 +129,7 @@ export default {
               this.$store.commit("SET_TOKEN", jwt);
 
               // 跳转/view/home
-              this.$router.push("/index");
+              this.$router.push("/view/home");
             });
 
           // alert("submit!");

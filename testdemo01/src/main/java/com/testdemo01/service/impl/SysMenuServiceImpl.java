@@ -94,9 +94,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     SysMenuDto dto = new SysMenuDto();
                     dto.setId(m.getId());
                     dto.setName(m.getName());
-                    dto.setTitle(m.getComponent());
+                    dto.setTitle(m.getName());
                     dto.setIcon(m.getIcon());
                     dto.setPath(m.getPath());
+                    dto.setComponent(m.getComponent());
                     // 如果 child 不为 0 ，则继续执行 convert 读取子 child 下的标题信息
                     if (m.getChildren().size() > 0) {
                         dto.setChildren(convert(m.getChildren()));

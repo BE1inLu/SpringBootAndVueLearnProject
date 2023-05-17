@@ -77,9 +77,9 @@
           <!--模拟树形下拉框-->
           <el-select v-model="editForm.parentId" placeholder="请选择上级菜单">
             <template v-for="item in tableData">
-              <el-option :label="item.name" :value="item.id"></el-option>
+              <el-option :label="item.name" :key="item.name" :value="item.id"></el-option>
               <template v-for="child in item.children">
-                <el-option :label="child.name" :value="child.id">
+                <el-option :label="child.name" :key="child.name" :value="child.id">
                   <span>{{ "- " + child.name }}</span>
                 </el-option>
               </template>
