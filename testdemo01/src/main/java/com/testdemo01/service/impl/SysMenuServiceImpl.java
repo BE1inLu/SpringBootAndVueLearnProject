@@ -93,7 +93,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 m -> {
                     SysMenuDto dto = new SysMenuDto();
                     dto.setId(m.getId());
-                    dto.setName(m.getName());
+                    dto.setName(m.getPerms());
                     dto.setTitle(m.getName());
                     dto.setIcon(m.getIcon());
                     dto.setPath(m.getPath());

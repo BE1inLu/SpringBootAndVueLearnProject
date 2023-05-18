@@ -4,9 +4,9 @@
     <!-- 创建表单 -->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item>
-        <el-button type="primary" @click="dialogFormVisible = true"
-          >查询</el-button
-        >
+        <el-button type="primary" @click="dialogFormVisible = true">
+          查询
+        </el-button>
       </el-form-item>
     </el-form>
 
@@ -21,9 +21,12 @@
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
       <el-table-column prop="name" label="名字" width="180"> </el-table-column>
-      <el-table-column prop="perms" label="权限编码" width="180">
-      </el-table-column>
-      <el-table-column prop="icon" label="图标" width="180"> </el-table-column>
+      <el-table-column
+        prop="perms"
+        label="权限编码"
+        width="180"
+      ></el-table-column>
+      <el-table-column prop="icon" label="图标" width="180"></el-table-column>
       <el-table-column prop="ptype" label="类型" width="120">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.type === 0" size="small">目录</el-tag>
@@ -77,9 +80,17 @@
           <!--模拟树形下拉框-->
           <el-select v-model="editForm.parentId" placeholder="请选择上级菜单">
             <template v-for="item in tableData">
-              <el-option :label="item.name" :key="item.name" :value="item.id"></el-option>
+              <el-option
+                :label="item.name"
+                :key="item.name"
+                :value="item.id"
+              ></el-option>
               <template v-for="child in item.children">
-                <el-option :label="child.name" :key="child.name" :value="child.id">
+                <el-option
+                  :label="child.name"
+                  :key="child.name"
+                  :value="child.id"
+                >
                   <span>{{ "- " + child.name }}</span>
                 </el-option>
               </template>
@@ -142,6 +153,7 @@ export default {
         name: "",
       },
       tableData: [],
+      testData: [],
       multipleSelection: [],
       dialogFormVisible: false,
       editForm: {},
@@ -165,14 +177,16 @@ export default {
     // 获取目录树
     getMenuTree() {
       this.$axios
-        .get("/views/index/menu", {
-          params: {
-            name: this.searchForm.name,
-          },
+        .get("/sys/menu/list", {
+          // params: {
+          //   name: this.searchForm.name,
+          // },
         })
         .then((res) => {
           console.log(res);
-          this.tableData = res.data.obj;
+          this.testData = res.data.obj;
+          // this.tableData = res.data.obj;
+          console.log(this.testData);
         });
     },
     // 表单新增方法
@@ -210,7 +224,7 @@ export default {
     editHandle(id) {
       console.log(id);
       this.$axios.get("/sys/menu/info/" + id).then((res) => {
-        this.editForm = res.data.data;
+        this.editForm = res.data.obj;
         // 更新后隐藏窗口
         this.dialogFormVisible = true;
       });
