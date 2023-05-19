@@ -16,12 +16,12 @@ import UserView from '@/views/UserManage/user.vue'
 let Result = {
     code: 200,
     msg: 'access',
-    data: null,
+    obj: null,
 }
 
 Mock.mock('/captcha', 'get', () => {
 
-    Result.data = {
+    Result.obj = {
         token: Random.string(32),
         captchaImg: Random.dataImage('120x40', '090909')
     };
@@ -45,7 +45,7 @@ Mock.mock(RegExp('/login*'), 'post', () => {
 
 Mock.mock('/sys/userInfo', 'get', () => {
 
-    Result.data = {
+    Result.obj = {
         id: "1",
         username: "test",
         avatar: "../assets/logo.png",
@@ -130,7 +130,7 @@ Mock.mock('/views/index/menu', 'get', () => {
     ];
     let authoritys = ['SysUser', "SysUser:save"];
 
-    Result.data = {
+    Result.obj = {
         nav: nav,
         authoritys: authoritys,
     };
