@@ -41,6 +41,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/nav")
     public result nav(Principal principal) {
+        System.out.println("=====执行 nav() =====");
         String username = principal.getName();
         SysUser sysUser = sysUserService.getByUsername(username);
         String[] authoritys = StringUtils.tokenizeToStringArray(sysUserService.getUserAuthorityInfo(sysUser.getId()),
@@ -62,12 +63,14 @@ public class SysMenuController extends BaseController {
     @GetMapping("/info/{id}")
     @PreAuthorize("hasAuthority('sys:menu:list')")
     public result info(@PathVariable("id") Long id) {
+        System.out.println("=====执行 info() =====");
         return result.succ(sysMenuService.getById(id));
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('sys:menu:list')")
     public result list() {
+        System.out.println("=====执行 list() =====");
         List<SysMenu> menus = sysMenuService.tree();
         return result.succ(menus);
     }
@@ -79,6 +82,7 @@ public class SysMenuController extends BaseController {
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('sys:menu:save')")
     public result save(@Validated @RequestBody SysMenu sysMenu) {
+        System.out.println("=====执行 save() =====");
         sysMenu.setCreated(LocalDateTime.now());
         sysMenu.setStatu(Const.STATUS_ON);
         sysMenuService.save(sysMenu);
@@ -92,6 +96,7 @@ public class SysMenuController extends BaseController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('sys:menu:update')")
     public result update(@Validated @RequestBody SysMenu sysMenu) {
+        System.out.println("=====执行 update() =====");
         sysMenu.setUpdated(LocalDateTime.now());
         sysMenuService.updateById(sysMenu);
         // 清除所有与该菜单相关的权限缓存
@@ -104,22 +109,19 @@ public class SysMenuController extends BaseController {
      * @return
      */
     @PostMapping("/delete/{id}")
-	@PreAuthorize("hasAuthority('sys:menu:delete')")
-	public result delete(@PathVariable("id") Long id) {
-
-		int count = (int) sysMenuService.count(new QueryWrapper<SysMenu>().eq("parent_id", id));
-		if (count > 0) {
-			return result.fail("请先删除子菜单");
-		}
-
-		// 清除所有与该菜单相关的权限缓存
-		sysUserService.clearUserAuthorityInfoByMenuId(id);
-
-		sysMenuService.removeById(id);
-
-		// 同步删除中间关联表
-		sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("menu_id", id));
-		return result.succ("");
-	}
+    @PreAuthorize("hasAuthority('sys:menu:delete')")
+    public result delete(@PathVariable("id") Long id) {
+        System.out.println("=====执行 delete() =====");
+        int count = (int) sysMenuService.count(new QueryWrapper<SysMenu>().eq("parent_id", id));
+        if (count > 0) {
+            return result.fail("请先删除子菜单");
+        }
+        // 清除所有与该菜单相关的权限缓存
+        sysUserService.clearUserAuthorityInfoByMenuId(id);
+        sysMenuService.removeById(id);
+        // 同步删除中间关联表
+        sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("menu_id", id));
+        return result.succ("");
+    }
 
 }

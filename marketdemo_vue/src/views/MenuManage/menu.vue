@@ -228,10 +228,10 @@
       // 表单修改方法
       editHandle(id) {
         console.log(id);
+        this.dialogVisible = true;
         this.$axios.get("/sys/menu/info/" + id).then((res) => {
           this.editForm = res.data.obj;
           // 更新后隐藏窗口
-          this.dialogFormVisible = true;
         });
       },
       // 表单删除方法
@@ -252,7 +252,7 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
         this.editForm = {};
-        this.dialogFormVisible = false;
+        this.dialogVisible = false;
       },
     },
     created() {
