@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
+import gobal from "./GlobalFunc";
 
 import request from '@/axios/axios.js'
 Vue.prototype.$axios=request
