@@ -1,6 +1,6 @@
 <template>
   <div>
-    Menuview
+    <!-- Menuview -->
     <!-- 创建表单 -->
     <el-form :inline="true">
       <el-form-item>
@@ -54,7 +54,7 @@
 
           <template>
             <el-popconfirm
-              title="这是一段内容确定删除吗？"
+              title="确定删除吗？"
               @confirm="delHandle(scope.row.id)"
             >
               <el-button type="text" slot="reference">删除</el-button>
@@ -85,7 +85,7 @@
               <el-option :key="item.name" :label="item.name" :value="item.id" />
               <template v-for="child in item.children">
                 <el-option
-                  :key="item + child"
+                  :key="child.name"
                   :label="child.name"
                   :value="child.id"
                 >
@@ -137,7 +137,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('editForm')">
+          <el-button type="primary" @click="submitEditForm('editForm')">
             立即创建
           </el-button>
           <el-button type="info" @click="resetForm('editForm')">重置</el-button>
@@ -149,10 +149,10 @@
     </el-dialog>
   </div>
 </template>
-
-
-
-<script>
+  
+  
+  
+  <script>
 export default {
   name: "menu.vue",
   data() {
@@ -200,7 +200,7 @@ export default {
         if (valid) {
           this.$axios
             .post(
-              "/view/test/menu/" +
+              "/sys/menu/" +
                 (this.editForm.id
                   ? "update"
                   : "save") /*这里通过判断有无id来进行修改或提交操作*/,
@@ -228,10 +228,10 @@ export default {
     // 表单修改方法
     editHandle(id) {
       console.log(id);
+      this.dialogVisible = true;
       this.$axios.get("/sys/menu/info/" + id).then((res) => {
         this.editForm = res.data.obj;
         // 更新后隐藏窗口
-        this.dialogFormVisible = true;
       });
     },
     // 表单删除方法
@@ -252,7 +252,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.editForm = {};
-      this.dialogFormVisible = false;
+      this.dialogVisible = false;
     },
   },
   created() {
@@ -260,6 +260,6 @@ export default {
   },
 };
 </script>
-
-<style>
+  
+  <style>
 </style>
